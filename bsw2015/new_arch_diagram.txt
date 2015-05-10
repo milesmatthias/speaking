@@ -1,0 +1,36 @@
++----------------------------+                                                                  
+| Browser                    |                                                                  
+|                            |                                                                  
+|    GET /index.html         |                                                                  
+|    GET /jobs.json          |                                                                  
+|    POST /jobs.json         |                                                                  
+|                            |                                                                  
+|    (No need for /jobs/new) |                                                                  
+|                            |                                                                  
++------------+--^------------+                                                                  
+             |  |                                                                               
+             |  |                                                                               
+             |  |                                                                               
+        +----v--+----+                                                                          
+        | CloudFront |                                                                          
+        +-----+------+                                                                          
+              |                                                                                 
+              |   * Traffic only occurs when CloudFront needs fresh content                     
+              |   OR if CF configuration says to not cache (POSTS, PUTS, /admin/*, etc.)        
+              |                                                                                 
+           +--v--+                                                                              
+           | ELB |                                                                              
+           ++----+                                                                              
+            |    |                                                                              
+            |    |                                                                              
+            |    |                                                                              
+       +----v+  +v----+                                                                         
+       | EC2 |  | EC2 |                                                                         
+       +----++  +-----+                                                                         
+            |   |                                                                               
+            |   |                                                                               
+            |   |                                                                               
+           +v---v+                                                                              
+           | RDS |                                                                              
+           +-----+                                                                              
+
